@@ -1,0 +1,127 @@
+openapi: 3.0.0
+info:
+  title: "SurveyUp: Forms Web"
+  description: API del microservicio _Forms Web_ del proyecto _SurveyUp_ de la asignatura
+    Ingeniería de Servicios TIC del Master  Universitario de Ingeniería Informática
+    de la EPCC del curso 2024/2025.
+  contact:
+    name: "Fernando Broncano Morgado, Marcos Jesús Sequera Fernández"
+    email: fbroncano@unex.es
+  version: 1.0.0
+servers:
+- url: http://localhost:8081
+tags:
+- name: Forms Web
+  description: Páginas web que permitan la gestión de formularios
+paths:
+  /new:
+    get:
+      tags:
+      - Forms Web
+      summary: Muestra la página para crear nuevos formularios.
+      operationId: new_get
+      responses:
+        "200":
+          description: Devuelve la interfaz para crear nuevos formularios.
+          content:
+            text/html:
+              schema:
+                type: string
+                example: <html></html>
+                x-content-type: text/html
+      x-openapi-router-controller: swagger_server.controllers.forms_web_controller
+  /forms:
+    get:
+      tags:
+      - Forms Web
+      summary: Muestra la lista de formularios.
+      operationId: forms_get
+      responses:
+        "200":
+          description: Devuelve la lista de formularios.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Form'
+                x-content-type: application/json
+      x-openapi-router-controller: swagger_server.controllers.forms_web_controller
+components:
+  schemas:
+    Form:
+      required:
+      - id
+      - questions
+      - title
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+          example: Encuesta de satisfacción
+        questions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Question'
+      example:
+        questions:
+        - options:
+          - id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+            text: Muy buena
+          - id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+            text: Muy buena
+          id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          text: ¿Cuál es tu opinion sobre la calidad del servicio?
+        - options:
+          - id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+            text: Muy buena
+          - id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+            text: Muy buena
+          id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          text: ¿Cuál es tu opinion sobre la calidad del servicio?
+        id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        title: Encuesta de satisfacción
+    Question:
+      required:
+      - id
+      - options
+      - text
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        text:
+          type: string
+          example: ¿Cuál es tu opinion sobre la calidad del servicio?
+        options:
+          type: array
+          items:
+            $ref: '#/components/schemas/Option'
+      example:
+        options:
+        - id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          text: Muy buena
+        - id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          text: Muy buena
+        id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        text: ¿Cuál es tu opinion sobre la calidad del servicio?
+    Option:
+      required:
+      - id
+      - text
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        text:
+          type: string
+          example: Muy buena
+      example:
+        id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        text: Muy buena
+
